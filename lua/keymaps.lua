@@ -71,3 +71,15 @@ vim.keymap.set('n', '<leader>gB', '<cmd>Git blame<CR>', { desc = 'Git Blame' })
 vim.keymap.set('n', '<leader>ff', vim.lsp.buf.code_action, {
   desc = 'LSP Code Action',
 })
+
+-- yanking and pasting to registers
+-- yanking
+vim.keymap.set('v', '<leader>y', function()
+  local reg = vim.fn.getcharstr()
+  vim.cmd('normal! "' .. reg .. 'y')
+end, { desc = 'Yank to register' })
+-- pasting
+vim.keymap.set('n', '<leader>p', function()
+  local reg = vim.fn.getcharstr()
+  vim.cmd('normal! "' .. reg .. 'p')
+end, { desc = 'Paste from register' })
