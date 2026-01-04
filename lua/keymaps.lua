@@ -62,3 +62,12 @@ vim.keymap.set('n', '<M-k>', '<cmd>cprev<CR>', { desc = 'Previous quickfix' })
 -- terminal
 vim.keymap.set('n', '<leader>t', '<cmd>terminal<CR>', { desc = 'Opens terminal' })
 vim.keymap.set('t', '<C-space>', '<C-\\><C-n>', { desc = 'Exits terminal to normal mode', silent = true })
+
+-- Git non LAZYGIT
+vim.keymap.set('n', '<leader>gb', '<cmd>Git blame_line<CR>', { desc = 'Git Blame Line' })
+vim.keymap.set('n', '<leader>gB', '<cmd>Git blame<CR>', { desc = 'Git Blame' })
+
+-- LSP code actions
+vim.keymap.set('n', '<leader>ff', vim.lsp.buf.code_action, {
+  desc = 'LSP Code Action',
+})

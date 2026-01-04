@@ -52,7 +52,7 @@ vim.o.scrolloff = 10
 -- tab settings
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
-vim.opt.expandtab = true
+-- vim.opt.expandtab = true
 
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
@@ -62,3 +62,6 @@ vim.o.confirm = true
 -- set the color column
 vim.opt.colorcolumn = '100'
 vim.api.nvim_set_hl(0, 'ColorColumn', { bg = '#3a3a3a' })
+
+-- set the cursor to the default terminal cursor
+vim.opt.guicursor = ''
