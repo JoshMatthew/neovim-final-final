@@ -473,6 +473,8 @@ require('lazy').setup({
 
         omnisharp = {},
 
+        tailwindcss = {},
+
         lua_ls = {
           settings = {
             Lua = {
