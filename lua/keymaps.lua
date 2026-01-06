@@ -71,6 +71,12 @@ vim.keymap.set('n', '<leader>gB', '<cmd>Git blame<CR>', { desc = 'Git Blame' })
 vim.keymap.set('n', '<leader>ff', vim.lsp.buf.code_action, {
   desc = 'LSP Code Action',
 })
+vim.keymap.set('n', '<C-i>', vim.lsp.buf.hover, {
+  desc = 'LSP Hover (type info)',
+})
+vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {
+  desc = 'LSP Rename symbol',
+})
 
 -- yanking and pasting to registers
 -- yanking
