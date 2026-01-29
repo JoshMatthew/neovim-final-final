@@ -65,3 +65,11 @@ vim.api.nvim_set_hl(0, 'ColorColumn', { bg = '#3a3a3a' })
 
 -- set the cursor to the default terminal cursor
 vim.opt.guicursor = ''
+
+-- Automatically reload files changed outside of Neovim
+vim.opt.autoread = true
+
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
+  pattern = '*',
+  command = 'checktime',
+})
