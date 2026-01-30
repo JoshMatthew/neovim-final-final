@@ -508,6 +508,32 @@ require('lazy').setup({
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+      vim.lsp.config('intelephense', {
+        root_dir = function()
+          return '/Users/mateo/Local Sites/custom-theme/app/public'
+        end,
+
+        settings = {
+          intelephense = {
+            telemetry = { enabled = false },
+
+            environment = {
+              includePaths = {
+                '/Users/mateo/Local Sites/custom-theme/app/public',
+              },
+            },
+
+            stubs = {
+              'wordpress',
+              'woocommerce',
+              'acf-pro',
+              'genesis',
+              'arash',
+            },
+          },
+        },
+      })
+
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
         automatic_installation = false,
