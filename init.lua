@@ -219,7 +219,7 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>\\', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
@@ -508,31 +508,8 @@ require('lazy').setup({
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-      vim.lsp.config('intelephense', {
-        root_dir = function()
-          return '/Users/mateo/Local Sites/custom-theme/app/public'
-        end,
-
-        settings = {
-          intelephense = {
-            telemetry = { enabled = false },
-
-            environment = {
-              includePaths = {
-                '/Users/mateo/Local Sites/custom-theme/app/public',
-              },
-            },
-
-            stubs = {
-              'wordpress',
-              'woocommerce',
-              'acf-pro',
-              'genesis',
-              'arash',
-            },
-          },
-        },
-      })
+      local wp = require('wordpress')
+      vim.lsp.config('intelephense', wp.intelephense)
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
@@ -586,8 +563,10 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- javascript = { 'vtsls' },
         -- typescript = { 'vtsls' },
-        javascript = { 'eslint_d', stop_after_first = true },
-        typescript = { 'eslint_d', stop_after_first = true },
+        -- javascript = { 'eslint_d', stop_after_first = true },
+        -- typescript = { 'eslint_d', stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
