@@ -52,7 +52,6 @@ vim.o.scrolloff = 0
 -- tab settings
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
--- vim.opt.expandtab = true
 
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
@@ -70,8 +69,3 @@ vim.opt.guicursor = ''
 
 -- Automatically reload files changed outside of Neovim
 vim.opt.autoread = true
-
-vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
-  pattern = '*',
-  command = 'checktime',
-})
