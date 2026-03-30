@@ -8,6 +8,10 @@ return {
     dependencies = { { 'nvim-mini/mini.icons', opts = {} } },
     config = function()
       require('oil').setup {
+        watch_for_changes = true,
+        keymaps = {
+          ['<C-l>'] = 'actions.refresh',
+        },
         default_file_explorer = true,
         delete_file = true,
         skip_confirm_form_simple_edits = true,

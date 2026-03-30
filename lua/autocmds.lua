@@ -6,8 +6,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
+vim.opt.updatetime = 1000
+
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
   group = vim.api.nvim_create_augroup('auto-reload', { clear = true }),
   pattern = '*',
-  command = 'checktime',
+  callback = function()
+    if vim.fn.getcmdwintype() == '' then
+      vim.cmd 'checktime'
+    end
+  end,
 })
