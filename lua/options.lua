@@ -58,8 +58,6 @@ vim.o.shiftwidth = 2
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
-vim.o.statusline = "%f %=%p%%"
-
 -- set the color column
 vim.opt.colorcolumn = '100'
 vim.api.nvim_set_hl(0, 'ColorColumn', { bg = '#3a3a3a' })

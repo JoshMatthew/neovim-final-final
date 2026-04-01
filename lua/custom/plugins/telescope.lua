@@ -16,6 +16,7 @@ return {
     },
     config = function()
       local actions = require 'telescope.actions'
+      local trouble = require 'trouble.sources.telescope'
       require('telescope').setup {
         defaults = {
           mappings = {
@@ -23,9 +24,11 @@ return {
               ['<M-j>'] = actions.move_selection_next,
               ['<M-k>'] = actions.move_selection_previous,
               ['<CR>'] = actions.select_default,
+              ['<C-q>'] = trouble.open,
             },
             n = {
               ['<CR>'] = actions.select_default,
+              ['<C-q>'] = trouble.open,
             },
           },
         },
