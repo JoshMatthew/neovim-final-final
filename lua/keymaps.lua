@@ -34,9 +34,6 @@ map('n', '-', '<cmd>Oil<CR>')
 map('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to Definition' })
 map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Go to Declaration' })
 
--- quickfix
-map('n', '<C-n>', '<cmd>cnext<CR>', { desc = 'Next quickfix' })
-map('n', '<C-p>', '<cmd>cprev<CR>', { desc = 'Previous quickfix' })
 
 -- terminal
 map('n', '<leader>t', '<cmd>terminal<CR>', { desc = 'Opens terminal' })
@@ -50,6 +47,12 @@ map('n', '<leader>gB', function() require('gitsigns').blame() end, { desc = 'Git
 map('n', '<leader>ff', vim.lsp.buf.code_action, {
   desc = 'LSP Code Action',
 })
+map('n', '<leader>fa', function()
+  vim.lsp.buf.code_action {
+    apply = true,
+    context = { only = { 'source.fixAll' }, diagnostics = {} },
+  }
+end, { desc = 'LSP Fix All' })
 map('n', '<leader>i', vim.lsp.buf.hover, {
   desc = 'LSP Hover (type info)',
 })
