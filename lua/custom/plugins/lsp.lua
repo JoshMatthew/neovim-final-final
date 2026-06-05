@@ -88,13 +88,7 @@ return {
             [vim.diagnostic.severity.HINT] = '󰌶 ',
           },
         } or {},
-        virtual_text = {
-          source = 'if_many',
-          spacing = 2,
-          format = function(d)
-            return d.message
-          end,
-        },
+        virtual_text = false,
       }
 
       local capabilities = require('blink.cmp').get_lsp_capabilities()

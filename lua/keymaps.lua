@@ -35,9 +35,8 @@ map('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to Definition' })
 map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Go to Declaration' })
 
 
--- terminal
-map('n', '<leader>t', '<cmd>terminal<CR>', { desc = 'Opens terminal' })
-map('t', '<C-space>', '<C-\\><C-n>', { desc = 'Exits terminal to normal mode', silent = true })
+-- exit terminal mode
+map('t', 'nn', '<C-\\><C-n>', { desc = 'Exits terminal to normal mode', silent = true })
 
 -- Git blame via gitsigns
 map('n', '<leader>gb', function() require('gitsigns').blame_line() end, { desc = 'Git Blame Line' })
