@@ -79,19 +79,46 @@ return {
       vim.diagnostic.config {
         severity_sort = true,
         float = { border = 'rounded', source = 'if_many' },
-        underline = { severity = vim.diagnostic.severity.ERROR },
-        signs = vim.g.have_nerd_font and {
-          text = {
+        underline = true,
+        signs = {
+          text = vim.g.have_nerd_font and {
             [vim.diagnostic.severity.ERROR] = '󰅚 ',
             [vim.diagnostic.severity.WARN] = '󰀪 ',
             [vim.diagnostic.severity.INFO] = '󰋽 ',
             [vim.diagnostic.severity.HINT] = '󰌶 ',
+          } or {
+            [vim.diagnostic.severity.ERROR] = 'E',
+            [vim.diagnostic.severity.WARN] = 'W',
+            [vim.diagnostic.severity.INFO] = 'I',
+            [vim.diagnostic.severity.HINT] = 'H',
           },
-        } or {},
+        },
+        -- Keep the buffer quiet: spell out the diagnostic only on the cursor line.
         virtual_text = false,
+        virtual_lines = { current_line = true },
       }
 
+      vim.keymap.set('n', '<leader>td', function()
+        local enabled = vim.diagnostic.config().virtual_lines ~= false
+        vim.diagnostic.config { virtual_lines = enabled and false or { current_line = true } }
+      end, { desc = '[T]oggle [D]iagnostic text' })
+
       local capabilities = require('blink.cmp').get_lsp_capabilities()
+
+      -- Which interpreter a Python server should analyse against: an activated
+      -- venv first, then one committed next to the project, then the system one.
+      local function python_path(root)
+        if vim.env.VIRTUAL_ENV then
+          return vim.fs.joinpath(vim.env.VIRTUAL_ENV, 'bin', 'python')
+        end
+        for _, venv in ipairs { '.venv', 'venv', 'env' } do
+          local candidate = vim.fs.joinpath(root or vim.fn.getcwd(), venv, 'bin', 'python')
+          if vim.uv.fs_stat(candidate) then
+            return candidate
+          end
+        end
+        return vim.fn.exepath 'python3'
+      end
 
       local servers = {
         clangd = {},
@@ -106,6 +133,35 @@ return {
             },
           },
         },
+
+        -- Types, hover and navigation. Linting and imports belong to ruff.
+        basedpyright = {
+          before_init = function(_, config)
+            config.settings.python.pythonPath = python_path(config.root_dir)
+          end,
+          settings = {
+            python = {},
+            basedpyright = {
+              disableOrganizeImports = true,
+              analysis = {
+                typeCheckingMode = 'standard',
+                diagnosticMode = 'openFilesOnly',
+                inlayHints = {
+                  callArgumentNames = true,
+                  functionReturnTypes = true,
+                  variableTypes = true,
+                },
+              },
+            },
+          },
+        },
+
+        -- Lint, quick-fix and organize imports. Hover stays with basedpyright.
+        ruff = {
+          on_attach = function(client)
+            client.server_capabilities.hoverProvider = false
+          end,
+        },
       }
 
       local ensure_installed = vim.tbl_keys(servers or {})
@@ -115,17 +171,13 @@ return {
       local wp = require 'wordpress'
       vim.lsp.config('intelephense', wp.intelephense)
 
-      require('mason-lspconfig').setup {
-        ensure_installed = {},
-        automatic_installation = false,
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
-      }
+      -- mason-lspconfig v2 dropped `handlers`: servers are declared through
+      -- vim.lsp.config and started by `automatic_enable` once Mason has them.
+      for name, server in pairs(servers) do
+        vim.lsp.config(name, vim.tbl_deep_extend('force', { capabilities = capabilities }, server))
+      end
+
+      require('mason-lspconfig').setup { ensure_installed = {} }
     end,
   },
 }

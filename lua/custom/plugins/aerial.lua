@@ -1,3 +1,5 @@
+-- shows outline of the file (like it shows functions)
+
 return {
   {
     'stevearc/aerial.nvim',

@@ -1,3 +1,5 @@
+-- centers editor
+
 return {
   {
     'shortcuts/no-neck-pain.nvim',
